@@ -110,6 +110,10 @@ python -c "import secrets; print(secrets.token_urlsafe(32))"
 # AUTH_JWT_SECRET=<生成的密钥>
 ```
 
+同一共享数据目录上的多个 Gateway worker 会原子创建 `.jwt_secret`，并统一读取
+竞争获胜者写入的值。多主机、多 Pod 或未共享 `.deer-flow` 卷的部署无法通过该文件
+同步密钥，必须为所有实例显式提供同一个 `AUTH_JWT_SECRET`。
+
 ## API 端点
 
 | 端点 | 方法 | 说明 |
